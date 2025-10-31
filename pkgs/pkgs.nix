@@ -6,6 +6,8 @@ let
 
   nixPkgs = import ./nix/pkgs.nix { inherit pkgs; };
 
+  zshPkgs = import ./zsh/pkgs.nix { inherit pkgs; };
+
   commonTools = import ./commonTools.nix { inherit pkgs; };
 in
-rustPkgs ++ mdbookPkgs ++ nixPkgs ++ commonTools
+rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ commonTools
