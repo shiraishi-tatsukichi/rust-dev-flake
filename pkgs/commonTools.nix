@@ -6,4 +6,5 @@ with pkgs;
   glibcLocales
   zenith
   nix-tree
+  openssl
 ]
