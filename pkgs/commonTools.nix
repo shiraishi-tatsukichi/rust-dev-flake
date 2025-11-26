@@ -5,6 +5,5 @@ with pkgs;
   google-cloud-sdk
   glibcLocales
   zenith
-  nix-tree
   openssl
 ]
