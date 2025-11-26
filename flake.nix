@@ -2,26 +2,23 @@
   description = "rust 開発用 Nix ライブラリー";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
     fenix = {
       url = "github:nix-community/fenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
   outputs =
-    { nixpkgs, fenix,  ... }:
-    let
-      system = "x86_64-linux";
-      fenixPkgs = fenix.packages.${system};
-
-      toolchain = fenixPkgs.fromToolchainFile {
-        file = ./rust-toolchain.toml;
-        sha256 = "sha256-P39FCgpfDT04989+ZTNEdM/k/AE869JKSB4qjatYTSs=";
-      };
-    in
-    rec {
+    {
+      nixpkgs,
+      flake-utils,
+      fenix,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (system: rec {
       lib = {
         mkDevShell =
-          { system, toolchain }:
+          { toolchain }:
           let
             pkgs = import nixpkgs { inherit system; };
 
@@ -39,6 +36,17 @@
             '';
           };
       };
-      devShells.${system}.default = lib.mkDevShell { inherit system toolchain; };
-    };
+      devShells =
+        let
+          fenixPkgs = fenix.packages.${system};
+
+          toolchain = fenixPkgs.fromToolchainFile {
+            file = ./rust-toolchain.toml;
+            sha256 = "sha256-P39FCgpfDT04989+ZTNEdM/k/AE869JKSB4qjatYTSs=";
+          };
+        in
+        {
+          default = lib.mkDevShell { inherit toolchain; };
+        };
+    });
 }
