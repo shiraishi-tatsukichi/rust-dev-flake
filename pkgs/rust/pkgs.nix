@@ -16,4 +16,5 @@ in
   pkgs.stylance-cli
   pkgs.sass
   sqlx
+  pkgs.sqlite
 ]
