@@ -2,10 +2,23 @@
   description = "rust 開発用 Nix ライブラリー";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs =
-    { nixpkgs, ... }:
-    {
+    { nixpkgs, fenix,  ... }:
+    let
+      system = "x86_64-linux";
+      fenixPkgs = fenix.packages.${system};
+
+      toolchain = fenixPkgs.fromToolchainFile {
+        file = ./rust-toolchain.toml;
+        sha256 = "sha256-P39FCgpfDT04989+ZTNEdM/k/AE869JKSB4qjatYTSs=";
+      };
+    in
+    rec {
       lib = {
         mkDevShell =
           { system, toolchain }:
@@ -26,5 +39,6 @@
             '';
           };
       };
+      devShells.${system}.default = lib.mkDevShell { inherit system toolchain; };
     };
 }
