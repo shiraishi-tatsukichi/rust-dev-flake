@@ -1,4 +1,4 @@
-{ toolchain, pkgs }:
+{ pkgs }:
 [
   pkgs.mdbook
   pkgs.mdbook-mermaid

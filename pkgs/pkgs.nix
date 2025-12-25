@@ -2,7 +2,7 @@
 let
   rustPkgs = import ./rust/pkgs.nix { inherit toolchain pkgs; };
 
-  mdbookPkgs = import ./mdbook/pkgs.nix { inherit toolchain pkgs; };
+  mdbookPkgs = import ./mdbook/pkgs.nix { inherit pkgs; };
 
   nixPkgs = import ./nix/pkgs.nix { inherit pkgs; };
 
