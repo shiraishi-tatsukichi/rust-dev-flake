@@ -4,9 +4,6 @@ let
     cargo = toolchain;
     rustc = toolchain;
   };
-  mdbook-pandoc = import ./pandoc.nix {
-    inherit rustPlatform pkgs;
-  };
   mdbook-codename = import ./codename.nix {
     inherit rustPlatform pkgs;
   };
@@ -22,5 +19,5 @@ in
   pkgs.texliveSmall
   mdbook-codename
   mdbook-metadata
-  mdbook-pandoc
+  pkgs.mdbook-pandoc
 ]
