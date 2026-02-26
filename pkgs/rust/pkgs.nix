@@ -2,6 +2,7 @@
 [
   toolchain
   pkgs.cargo-leptos
+  pkgs.cargo-insta
   pkgs.leptosfmt
   pkgs.wasm-bindgen-cli
   pkgs.stylance-cli
