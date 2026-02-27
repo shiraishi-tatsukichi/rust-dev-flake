@@ -8,6 +8,8 @@ let
 
   zshPkgs = import ./zsh/pkgs.nix { inherit pkgs; };
 
+  pandocPkgs = import ./pandoc/pkgs.nix { inherit pkgs; };
+
   commonTools = import ./commonTools.nix { inherit pkgs; };
 in
-rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ commonTools
+rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ pandocPkgs ++ commonTools
