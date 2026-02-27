@@ -10,6 +10,6 @@ let
 
   pandocPkgs = import ./pandoc/pkgs.nix { inherit pkgs; };
 
-  commonTools = import ./commonTools.nix { inherit pkgs; };
+  commonPkgs = import ./common/pkgs.nix { inherit pkgs; };
 in
-rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ pandocPkgs ++ commonTools
+rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ pandocPkgs ++ commonPkgs
