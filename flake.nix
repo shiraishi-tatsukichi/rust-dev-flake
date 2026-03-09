@@ -16,37 +16,38 @@
       ...
     }:
     flake-utils.lib.eachDefaultSystem (system: rec {
-      lib = {
-        mkDevShell =
-          { toolchain }:
-          let
-            pkgs = import nixpkgs { inherit system; };
+      lib =
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+        import ./pkgs/pkgs.nix { inherit pkgs; }
+        // {
+          mkDevShell =
+            {
+              packages,
+            }:
+            let
+              LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+              zshPath = "${pkgs.zsh}/bin/zsh";
+            in
 
-            packages = import ./pkgs/pkgs.nix { inherit toolchain pkgs; };
+            pkgs.mkShell {
+              name = "my-devshell";
+              inherit packages LOCALE_ARCHIVE;
+              shellHook = ''
+                export SHELL=${zshPath}
+                exec $SHELL -l
+              '';
+            };
 
-            LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-            zshPath = "${pkgs.zsh}/bin/zsh";
-          in
-          pkgs.mkShell {
-            name = "rust-nightly-devshell";
-            inherit packages LOCALE_ARCHIVE;
-            shellHook = ''
-              export SHELL=${zshPath}
-              exec $SHELL -l
-            '';
-          };
-      };
+          fromToolchainFile = fenix.packages.${system}.fromToolchainFile;
+        };
       devShells =
         let
-          fenixPkgs = fenix.packages.${system};
-
-          toolchain = fenixPkgs.fromToolchainFile {
-            file = ./rust-toolchain.toml;
-            sha256 = "sha256-ufueLCy1XMrM/F01nR3hVoltPUvaG1m44uL8n5h/bSk=";
-          };
+          packages = lib.minimum ++ lib.nix;
         in
         {
-          default = lib.mkDevShell { inherit toolchain; };
+          default = lib.mkDevShell { inherit packages; };
         };
     });
 }
