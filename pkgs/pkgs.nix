@@ -1,15 +1,19 @@
-{ pkgs, toolchain }:
-let
-  rustPkgs = import ./rust/pkgs.nix { inherit toolchain pkgs; };
+{
+  pkgs,
+}:
+{
+  rust = { toolchain }: import ./rust/pkgs.nix { inherit toolchain pkgs; };
 
-  mdbookPkgs = import ./mdbook/pkgs.nix { inherit pkgs; };
+  mdbook = import ./mdbook/pkgs.nix { inherit pkgs; };
 
-  nixPkgs = import ./nix/pkgs.nix { inherit pkgs; };
+  nix = import ./nix/pkgs.nix { inherit pkgs; };
 
-  zshPkgs = import ./zsh/pkgs.nix { inherit pkgs; };
+  zsh = import ./zsh/pkgs.nix { inherit pkgs; };
 
-  pandocPkgs = import ./pandoc/pkgs.nix { inherit pkgs; };
+  pandoc = import ./pandoc/pkgs.nix { inherit pkgs; };
 
-  commonPkgs = import ./common/pkgs.nix { inherit pkgs; };
-in
-rustPkgs ++ mdbookPkgs ++ nixPkgs ++ zshPkgs ++ pandocPkgs ++ commonPkgs
+  common = import ./common/pkgs.nix { inherit pkgs; };
+
+  minimum = import ./minimum/pkgs.nix { inherit pkgs; };
+
+}
