@@ -24,7 +24,7 @@
         // {
           mkDevShell =
             {
-              packages,
+              packages ? lib.minimum,
             }:
             let
               LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
