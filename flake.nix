@@ -28,16 +28,11 @@
             }:
             let
               LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-              zshPath = "${pkgs.zsh}/bin/zsh";
             in
 
             pkgs.mkShell {
               name = "my-devshell";
               inherit packages LOCALE_ARCHIVE;
-              shellHook = ''
-                export SHELL=${zshPath}
-                exec $SHELL -l
-              '';
             };
 
           fromToolchainFile = fenix.packages.${system}.fromToolchainFile;
