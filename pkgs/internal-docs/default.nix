@@ -11,8 +11,7 @@ pkgs.stdenv.mkDerivation {
   # ソース全体を Nix Store に取り込む
   inherit src;
 
-  nativeBuildInputs = [
-    pkgs.mdbook
+  nativeBuildInputs = import ../mdbook/pkgs.nix { inherit pkgs; } ++ [
     toolchain
   ];
 
