@@ -8,7 +8,6 @@
 
   internalDocs =
     {
-      toolchain,
       craneLib,
       src,
       bookPath,
@@ -19,7 +18,6 @@
       # ドキュメントの成果物
       docs = import ./internal-docs/default.nix {
         inherit
-          toolchain
           craneLib
           pkgs
           src

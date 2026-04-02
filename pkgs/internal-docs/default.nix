@@ -1,6 +1,5 @@
 {
   pkgs,
-  toolchain,
   craneLib,
   src,
   bookPath,
@@ -21,22 +20,24 @@ let
     doCheck = false;
   };
 
-  # 2. cargo doc のビルド
+  # 2. cargo doc のビルド（名前を識別しやすく -cargo-doc を付与）
   cargo-doc = craneLib.cargoDoc {
     src = cargoSrc;
-    inherit cargoArtifacts pname version;
+    inherit cargoArtifacts version;
+    pname = "${pname}-cargo-doc";
     cargoDocExtraArgs = "--no-deps";
   };
 in
 pkgs.stdenv.mkDerivation {
-  inherit pname version;
+  # 最終成果物の名前を識別しやすく -internal-docs を付与
+  pname = "${pname}-internal-docs";
+  inherit version;
 
   # ソース全体を取り込む
   inherit src;
 
-  nativeBuildInputs = import ../mdbook/pkgs.nix { inherit pkgs; } ++ [
-    toolchain
-  ];
+  # mdbook 関連のツールのみが必要（cargo doc は上記 cargo-doc derivation で実行済み）
+  nativeBuildInputs = import ../mdbook/pkgs.nix { inherit pkgs; };
 
   buildPhase = ''
     # 1. mdbook のビルド
@@ -50,7 +51,6 @@ pkgs.stdenv.mkDerivation {
     cp -r $TMPDIR/book-out/* $out/share/nginx/html/
 
     # cargo doc の成果物をコピー
-    # craneLib.cargoDoc の成果物は通常 $out/share/doc に格納されます
     mkdir -p $out/share/nginx/html/doc
     # $cargo-doc は derivation なので、そのパス配下を参照
     cp -r ${cargo-doc}/share/doc/* $out/share/nginx/html/doc/
