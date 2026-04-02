@@ -1,6 +1,7 @@
 { toolchain, pkgs }:
 [
   toolchain
+  pkgs.cargo-make
   pkgs.cargo-leptos
   pkgs.cargo-insta
   pkgs.leptosfmt
