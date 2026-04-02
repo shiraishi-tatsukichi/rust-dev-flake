@@ -7,25 +7,31 @@
   version,
 }:
 let
-  # Rustプロジェクトのソースをフィルタリング (.md ファイルを include_str! しているため含める)
+  # 1. Rustプロジェクトのソースをフィルタリング (.md ファイルを include_str! しているため含める)
   cargoSrc = pkgs.lib.cleanSourceWith {
     src = craneLib.path src;
     filter = path: type: (craneLib.filterCargoSources path type) || (pkgs.lib.hasSuffix ".md" path);
   };
 
-  # 1. 依存関係のビルド（キャッシュ用）
+  # 2. Rust依存関係のビルド（キャッシュ用）
   cargoArtifacts = craneLib.buildDepsOnly {
     src = cargoSrc;
     inherit pname version;
     doCheck = false;
   };
 
-  # 2. cargo doc のビルド（名前を識別しやすく -cargo-doc を付与）
+  # 3. cargo doc のビルド（APIドキュメント）
   cargo-doc = craneLib.cargoDoc {
     src = cargoSrc;
-    inherit cargoArtifacts version;
-    pname = "${pname}-cargo-doc";
+    inherit cargoArtifacts version pname;
     cargoDocExtraArgs = "--no-deps";
+  };
+
+  # 4. mdbook のビルド (../mdbook/default.nix の定義を利用)
+  mdbook-build = import ../mdbook {
+    inherit pkgs pname version;
+    # bookPath ディレクトリそのものをソースとして渡す
+    src = craneLib.path "${src}/${bookPath}";
   };
 in
 pkgs.stdenv.mkDerivation {
@@ -33,29 +39,18 @@ pkgs.stdenv.mkDerivation {
   pname = "${pname}-internal-docs";
   inherit version;
 
-  # ソース全体を取り込む
-  inherit src;
+  # すでにビルド済みの Derivation の成果物を集約するだけなので、軽量な installPhase のみ
+  phases = [ "installPhase" ];
 
-  # mdbook 関連のツールのみが必要（cargo doc は上記 cargo-doc derivation で実行済み）
-  nativeBuildInputs = import ../mdbook/pkgs.nix { inherit pkgs; };
-
-  buildPhase = ''
-    # 1. mdbook のビルド
-    echo "Building mdbook in: ${bookPath}"
-    mdbook build "${bookPath}" -d $TMPDIR/book-out
-
-    # 2. 成果物の集約
+  installPhase = ''
     mkdir -p $out/share/nginx/html
 
     # mdbook の成果物をコピー
-    cp -r $TMPDIR/book-out/* $out/share/nginx/html/
+    cp -r ${mdbook-build}/* $out/share/nginx/html/
 
     # cargo doc の成果物をコピー
     mkdir -p $out/share/nginx/html/doc
     # $cargo-doc は derivation なので、そのパス配下を参照
     cp -r ${cargo-doc}/share/doc/* $out/share/nginx/html/doc/
   '';
-
-  # installPhase は buildPhase で $out に書き出しているため空でOK
-  installPhase = "true";
 }
