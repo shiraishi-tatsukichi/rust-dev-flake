@@ -6,6 +6,29 @@
 
   mdbook = import ./mdbook/pkgs.nix { inherit pkgs; };
 
+  internalDocs =
+    {
+      toolchain,
+      src,
+      bookPath,
+    }:
+    let
+      docs = import ./internal-docs/default.nix {
+        inherit
+          toolchain
+          pkgs
+          src
+          bookPath
+          ;
+      };
+      dockerImage = import ./internal-docs/docker.nix {
+        inherit pkgs docs;
+      };
+    in
+    {
+      inherit docs dockerImage;
+    };
+
   nix = import ./nix/pkgs.nix { inherit pkgs; };
 
   zsh = import ./zsh/pkgs.nix { inherit pkgs; };
