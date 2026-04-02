@@ -43,7 +43,7 @@ pkgs.dockerTools.buildLayeredImage {
       "${nginxConfig}"
     ];
     ExposedPorts = {
-      "80/tcp" = { };
+      "8080/tcp" = { };
     };
     # UID:GID で実行
     User = "1000:1000";
