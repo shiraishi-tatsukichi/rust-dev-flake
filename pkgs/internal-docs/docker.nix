@@ -3,11 +3,11 @@
   docs,
 }:
 let
-  nginxConfig = pkgs.substituteAll {
-    src = ./nginx.conf;
-    inherit (pkgs) nginx;
-    inherit docs;
-  };
+  nginxConfig = pkgs.writeText "nginx.conf" (
+    builtins.replaceStrings [ "@nginx@" "@docs@" ] [ "${pkgs.nginx}" "${docs}" ] (
+      builtins.readFile ./nginx.conf
+    )
+  );
 in
 pkgs.dockerTools.buildLayeredImage {
   name = "internal-docs";
@@ -20,12 +20,13 @@ pkgs.dockerTools.buildLayeredImage {
 
   config = {
     Cmd = [
-      "nginx"
+      "${pkgs.nginx}/bin/nginx"
       "-c"
       "${nginxConfig}"
     ];
     ExposedPorts = {
       "80/tcp" = { };
     };
+    User = "nginx";
   };
 }
