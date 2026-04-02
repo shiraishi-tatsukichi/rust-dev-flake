@@ -9,16 +9,23 @@
   internalDocs =
     {
       toolchain,
+      craneLib,
       src,
       bookPath,
+      pname,
+      version,
     }:
     let
+      # ドキュメントの成果物
       docs = import ./internal-docs/default.nix {
         inherit
           toolchain
+          craneLib
           pkgs
           src
           bookPath
+          pname
+          version
           ;
       };
       dockerImage = import ./internal-docs/docker.nix {
