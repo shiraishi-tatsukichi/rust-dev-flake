@@ -49,8 +49,8 @@ pkgs.stdenv.mkDerivation {
     cp -r ${mdbook-build}/* $out/share/nginx/html/
 
     # cargo doc の成果物をコピー
-    mkdir -p $out/share/nginx/html/doc
+    mkdir -p $out/share/nginx/html/api
     # $cargo-doc は derivation なので、そのパス配下を参照
-    cp -r ${cargo-doc}/share/doc/* $out/share/nginx/html/doc/
+    cp -r ${cargo-doc}/share/doc/* $out/share/nginx/html/api/
   '';
 }
