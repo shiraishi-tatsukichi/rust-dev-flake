@@ -3,16 +3,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    fenix = {
-      url = "github:nix-community/fenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs =
     {
       nixpkgs,
       flake-utils,
-      fenix,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (system: rec {
@@ -34,8 +29,6 @@
               name = "my-devshell";
               inherit packages LOCALE_ARCHIVE;
             };
-
-          fromToolchainFile = fenix.packages.${system}.fromToolchainFile;
         };
       devShells =
         let
