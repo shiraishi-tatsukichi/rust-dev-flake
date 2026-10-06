@@ -27,6 +27,9 @@
 
             pkgs.mkShell {
               name = "my-devshell";
+              env = {
+                RUSTC_WRAPPER="${pkgs.sccache}/bin/sccache";
+              };
               inherit packages LOCALE_ARCHIVE;
             };
         };
