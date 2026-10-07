@@ -36,8 +36,6 @@
 
   nix = import ./nix/pkgs.nix { inherit pkgs; };
 
-  zsh = import ./zsh/pkgs.nix { inherit pkgs; };
-
   pandoc = import ./pandoc/pkgs.nix { inherit pkgs; };
 
   tree-sitter = import ./tree-sitter/pkgs.nix { inherit pkgs; };
