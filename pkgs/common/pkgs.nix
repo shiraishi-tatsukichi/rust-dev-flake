@@ -3,5 +3,4 @@ with pkgs;
 [
   docker
   coreutils
-  zenith
 ]

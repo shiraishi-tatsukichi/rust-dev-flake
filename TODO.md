@@ -6,7 +6,7 @@
   - [x] `zsh`
   - [ ] `docker`
   - [ ] `coreutils`
-  - [ ] `zenith`
+  - [x] `zenith`
   - [x] `google-cloud-sdk`
 
 ## ✅ 完了済みの項目 (Archive)
