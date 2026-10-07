@@ -1,6 +1,7 @@
 # rust-dev-flake TODO List
 
 ## 🚀 進行中の課題 (Active Tasks)
+- [ ] `mdbook-codename`, `mdbook-metadata` のpkg 化
 
 ## ✅ 完了済みの項目 (Archive)
 
