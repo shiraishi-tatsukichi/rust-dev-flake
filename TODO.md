@@ -4,7 +4,7 @@
 
 ## ✅ 完了済みの項目 (Archive)
 
-- [x] Home-Manager に移譲
+- [x] Home-Manager に移譲 (2026-10-07 完了)
   - [x] `zsh`
   - [x] `docker`
   - [x] `coreutils`
