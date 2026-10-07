@@ -7,7 +7,7 @@
   - [ ] `docker`
   - [ ] `coreutils`
   - [ ] `zenith`
-  - [ ] `google-cloud-sdk`
+  - [x] `google-cloud-sdk`
 
 ## ✅ 完了済みの項目 (Archive)
 
