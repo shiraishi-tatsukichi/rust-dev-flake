@@ -5,7 +5,7 @@
 - [ ] Home-Manager に移譲
   - [x] `zsh`
   - [ ] `docker`
-  - [ ] `coreutils`
+  - [x] `coreutils`
   - [x] `zenith`
   - [x] `google-cloud-sdk`
 
