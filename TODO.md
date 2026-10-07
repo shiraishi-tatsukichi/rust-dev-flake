@@ -2,14 +2,14 @@
 
 ## 🚀 進行中の課題 (Active Tasks)
 
-- [ ] Home-Manager に移譲
+## ✅ 完了済みの項目 (Archive)
+
+- [x] Home-Manager に移譲
   - [x] `zsh`
-  - [ ] `docker`
+  - [x] `docker`
   - [x] `coreutils`
   - [x] `zenith`
   - [x] `google-cloud-sdk`
-
-## ✅ 完了済みの項目 (Archive)
 
 ## 🔬 将来の検討事項 (Future Ideas)
 

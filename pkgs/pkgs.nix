@@ -40,8 +40,6 @@
 
   tree-sitter = import ./tree-sitter/pkgs.nix { inherit pkgs; };
 
-  common = import ./common/pkgs.nix { inherit pkgs; };
-
   minimum = import ./minimum/pkgs.nix { inherit pkgs; };
 
 }
