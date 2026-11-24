@@ -11,4 +11,5 @@
   pkgs.sass
   pkgs.sqlx-cli
   pkgs.sqlite
+  pkgs.taplo
 ]
