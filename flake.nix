@@ -15,7 +15,7 @@
         let
           pkgs = import nixpkgs { inherit system; };
         in
-        import ./pkgs/pkgs.nix { inherit pkgs; }
+        import ./pkgs { inherit pkgs; }
         // {
           mkDevShell =
             {
@@ -27,6 +27,9 @@
 
             pkgs.mkShell {
               name = "my-devshell";
+              env = {
+                RUSTC_WRAPPER="${pkgs.sccache}/bin/sccache";
+              };
               inherit packages LOCALE_ARCHIVE;
             };
         };
