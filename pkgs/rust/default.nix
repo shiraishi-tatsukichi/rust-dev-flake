@@ -4,6 +4,7 @@
   pkgs.cargo-expand
   pkgs.cargo-make
   pkgs.cargo-leptos
+  pkgs.cargo-nextest
   pkgs.cargo-insta
   pkgs.sccache
   pkgs.leptosfmt
